@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>关于算法地动画</title>
+</head>
+<body>
+	<div id="root" class="container">
+		{{list}}
+		{{message}}
+		{{list}}
+		{{list}}
+		{{message}}
+		<input type="text" :value="message">
+	</div>
+	<script src="index.js"></script>
+	<script>
+		new Vue({
+			el:document.querySelector('#root'),
+			data(){
+				return {
+					list: [1,2,3,4,5,6,7,],
+					message:'mmm',
+					num: 0,
+				}
+			},
+			methods: {
+				spark(w){
+					console.log(w);
+				},
+				inc(n=1){
+					this.num += n;
+				},
+				dec(n=1){
+					this.num -= n;
+				}
+			},
+			mounted(){
+				this.inc(6);
+				this.dec(2);
+				this.spark(this.num)
+				window.app = this;
+			}
+		})
+	</script>
+</body>
+</html>
