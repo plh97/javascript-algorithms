@@ -1,11 +1,6 @@
-import Vue from './vue.js'
-import {
-	pop,
-	improvePop,
-} from './sort.js';
-const sweap = (a,b) => [a,b] = [ b, a];
+import Vue from './lib/vue.js'
+import { select } from './lib/sort.js';
 import 'babel-polyfill';
-
 
 
 new Vue({
@@ -18,9 +13,9 @@ new Vue({
 	},
 	async mounted(){
 		// 交换策略  ,某个数字位于当前数字的 位置
-		const result = improvePop(this.arr,400 , (j)=>{
+		const result = select(this.arr, 0 , (i,j)=>{
 			this.time++;
-			[this.arr[j], this.arr[j+1]] = [this.arr[j+1], this.arr[j]]
+			[this.arr[i], this.arr[j]] = [this.arr[j], this.arr[i]]
 			this.arr = [...this.arr]
 			return this.arr;
 		})

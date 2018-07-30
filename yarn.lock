@@ -21,6 +21,10 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
+lib@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/lib/-/lib-3.0.2.tgz#dd1e4f5a182fcebfee89484ff10fdfdd1508674e"
+
 regenerator-runtime@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
