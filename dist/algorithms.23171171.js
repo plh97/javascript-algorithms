@@ -5707,6 +5707,8 @@ exports.default = Vue;
 },{}],"lib/sort.js":[function(require,module,exports) {
 var _this = this;
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var dely = function dely(ms) {
@@ -5716,7 +5718,7 @@ var dely = function dely(ms) {
         }, ms);
     });
 };
-var sweap = function sweap(a, b) {
+var swap = function swap(a, b) {
     var _ref;
 
     return _ref = [b, a], a = _ref[0], b = _ref[1], _ref;
@@ -5862,39 +5864,42 @@ var select = function () {
 
                     case 4:
                         if (!(i < arr.length - 1)) {
-                            _context3.next = 15;
+                            _context3.next = 16;
                             break;
                         }
 
                         minNum = i;
                         for (j = i; j < arr.length; j++) {
                             // 找出最小的那个数
+                            console.log('\u7B2C' + ++time + '\u6B21');
+
                             if (arr[j] < arr[minNum]) {
                                 minNum = j;
                             }
                         }
                         // 如果有找到不同于i的最小那个数, 交换
+                        console.log('\u7B2C' + ++time + '\u6B21.');
 
                         if (!(minNum !== i)) {
-                            _context3.next = 12;
+                            _context3.next = 13;
                             break;
                         }
 
                         // console.log(`交换第${minNum} - ${j+1},  第${++time}次.`)
-                        console.log('\u627E\u5230\u4E86\u7B2C' + (i + 1) + '\u8F6E,\u6700\u5C0F\u6570:' + arr[minNum] + ',\u7B2C' + ++time + '\u6B21');
+                        console.log('\u627E\u5230\u4E86\u7B2C' + (i + 1) + '\u8F6E,\u6700\u5C0F\u6570:' + arr[minNum] + '.');
                         arr = func(minNum, i);
-                        _context3.next = 12;
+                        _context3.next = 13;
                         return dely(ms);
 
-                    case 12:
+                    case 13:
                         i++;
                         _context3.next = 4;
                         break;
 
-                    case 15:
+                    case 16:
                         return _context3.abrupt('return', '\u9009\u62E9\u6392\u5E8F\u5B8C\u6210,\u4E00\u5171\u82B1\u4E86' + time + '\u6B21,O(n^2)\u590D\u6742\u5EA6');
 
-                    case 16:
+                    case 17:
                     case 'end':
                         return _context3.stop();
                 }
@@ -5910,52 +5915,47 @@ var select = function () {
 // 插入排序 时间复杂度 O(n^2);
 var insert = function () {
     var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(arr, ms, func) {
-        var time, minNum, i, j;
+        var time, temp, j, i;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
             while (1) {
                 switch (_context4.prev = _context4.next) {
                     case 0:
+                        console.log('插入排序: 假设第一个数已经排序,第二个数组是插入到第一个数字的前/后?');
+                        console.log('插入排序: 假设第一个第二个数组成了已排序的小团体,第三个数应该插入到前面已排序的小团体的哪个位置?');
+                        console.log('插入排序: 以此类推第四个数?');
                         time = 0;
-                        minNum = void 0;
+                        temp = void 0, j = void 0;
+                        i = 1;
 
-                        console.log('选择排序:找到最小的数放到第一个位置,再次循环跳过第一个位置,找到最小的数,放到第二个位置.');
-                        i = 0;
-
-                    case 4:
-                        if (!(i < arr.length - 1)) {
-                            _context4.next = 15;
+                    case 6:
+                        if (!(i < arr.length)) {
+                            _context4.next = 17;
                             break;
                         }
 
-                        minNum = i;
-                        for (j = i; j < arr.length; j++) {
-                            // 找出最小的那个数
-                            if (arr[j] < arr[minNum]) {
-                                minNum = j;
-                            }
+                        // i代表前面几个数被排了
+                        console.log('\u6392\u5E8F\u4E86' + i + '\u4E2A,\u603B\u5171' + arr.length + '\u4E2A');
+                        // 找出最小的那个数
+                        j = i;
+                        temp = i;
+                        while (j > 0 && arr[j - 1] > arr[i]) {
+                            // console.log(`交换:第${arr[j]} - 第${arr[j-1]}`);
+                            --j;
+                            temp = j;
                         }
-                        // 如果有找到不同于i的最小那个数, 交换
-
-                        if (!(minNum !== i)) {
-                            _context4.next = 12;
-                            break;
-                        }
-
-                        // console.log(`交换第${minNum} - ${j+1},  第${++time}次.`)
-                        console.log('\u627E\u5230\u4E86\u7B2C' + (i + 1) + '\u8F6E,\u6700\u5C0F\u6570:' + arr[minNum] + ',\u7B2C' + ++time + '\u6B21');
-                        arr = func(minNum, i);
-                        _context4.next = 12;
+                        arr = func([].concat(_toConsumableArray(arr.slice(0, temp)), [arr[i]], _toConsumableArray(arr.slice(temp, i)), _toConsumableArray(arr.slice(i + 1, arr.length))));
+                        _context4.next = 14;
                         return dely(ms);
 
-                    case 12:
+                    case 14:
                         i++;
-                        _context4.next = 4;
+                        _context4.next = 6;
                         break;
 
-                    case 15:
+                    case 17:
                         return _context4.abrupt('return', '\u9009\u62E9\u6392\u5E8F\u5B8C\u6210,\u4E00\u5171\u82B1\u4E86' + time + '\u6B21,O(n^2)\u590D\u6742\u5EA6');
 
-                    case 16:
+                    case 18:
                     case 'end':
                         return _context4.stop();
                 }
@@ -5968,6 +5968,31 @@ var insert = function () {
     };
 }();
 
+// 归并排序
+var mergeSort = function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(arr, ms, func) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            while (1) {
+                switch (_context5.prev = _context5.next) {
+                    case 0:
+                        // 第一个实际可用的排序算法,复杂度:O(nlog^n).
+                        // 对于 Array.prototype.sort
+                        // Mozila Firfox 采用 归并排序,而chrome采用的快排.
+                        console.log('采用分而治之的方式');
+
+                    case 1:
+                    case 'end':
+                        return _context5.stop();
+                }
+            }
+        }, _callee5, _this);
+    }));
+
+    return function mergeSort(_x13, _x14, _x15) {
+        return _ref6.apply(this, arguments);
+    };
+}();
+
 module.exports = {
     pop: pop,
     improvePop: improvePop,
@@ -5976,6 +6001,8 @@ module.exports = {
 };
 },{}],"index.js":[function(require,module,exports) {
 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('core-js/modules/es6.typed.array-buffer');
 
@@ -6199,14 +6226,19 @@ new _vue2.default({
 					switch (_context.prev = _context.next) {
 						case 0:
 							// 交换策略  ,某个数字位于当前数字的 位置
-							result = (0, _sort.select)(this.arr, 0, function (i, j) {
-								_this.time++;
-								var _ref2 = [_this.arr[j], _this.arr[i]];
-								_this.arr[i] = _ref2[0];
-								_this.arr[j] = _ref2[1];
+							result = (0, _sort.insert)(this.arr, 1000, function (i, j) {
+								if ((typeof i === 'undefined' ? 'undefined' : _typeof(i)) === 'object') {
+									_this.arr = i;
+									return i;
+								} else {
+									_this.time++;
+									var _ref2 = [_this.arr[j], _this.arr[i]];
+									_this.arr[i] = _ref2[0];
+									_this.arr[j] = _ref2[1];
 
-								_this.arr = [].concat(_toConsumableArray(_this.arr));
-								return _this.arr;
+									_this.arr = [].concat(_toConsumableArray(_this.arr));
+									return _this.arr;
+								}
 							});
 							_context.t0 = console;
 							_context.next = 4;
@@ -6236,7 +6268,7 @@ new _vue2.default({
 		console.log('i am created');
 	}
 });
-},{"core-js/modules/es6.typed.array-buffer":"node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.map":"node_modules/core-js/modules/es6.map.js","core-js/modules/es6.set":"node_modules/core-js/modules/es6.set.js","core-js/modules/es6.weak-map":"node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es6.reflect.apply":"node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.promise":"node_modules/core-js/modules/es6.promise.js","core-js/modules/es6.symbol":"node_modules/core-js/modules/es6.symbol.js","core-js/modules/es6.object.freeze":"node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.seal":"node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.prevent-extensions":"node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is-frozen":"node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.get-own-property-descriptor":"node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es6.object.get-prototype-of":"node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es6.object.keys":"node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.get-own-property-names":"node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.assign":"node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es6.object.is":"node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.set-prototype-of":"node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es6.function.name":"node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.string.raw":"node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.from-code-point":"node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.code-point-at":"node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.repeat":"node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.starts-with":"node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.ends-with":"node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.includes":"node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.regexp.flags":"node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.array.from":"node_modules/core-js/modules/es6.array.from.js","core-js/modules/es6.array.of":"node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.copy-within":"node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.find":"node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.fill":"node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.iterator":"node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.number.is-finite":"node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-safe-integer":"node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.is-nan":"node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.epsilon":"node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.min-safe-integer":"node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.math.acosh":"node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es7.array.includes":"node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es7.object.values":"node_modules/core-js/modules/es7.object.values.js","core-js/modules/es7.object.entries":"node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es7.object.get-own-property-descriptors":"node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es7.string.pad-start":"node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/web.timers":"node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./lib/vue.js":"lib/vue.js","./lib/sort.js":"lib/sort.js"}],"../../../../usr/local/share/.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/modules/es6.typed.array-buffer":"node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.map":"node_modules/core-js/modules/es6.map.js","core-js/modules/es6.set":"node_modules/core-js/modules/es6.set.js","core-js/modules/es6.weak-map":"node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es6.reflect.apply":"node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.promise":"node_modules/core-js/modules/es6.promise.js","core-js/modules/es6.symbol":"node_modules/core-js/modules/es6.symbol.js","core-js/modules/es6.object.freeze":"node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.seal":"node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.prevent-extensions":"node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is-frozen":"node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.get-own-property-descriptor":"node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es6.object.get-prototype-of":"node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es6.object.keys":"node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.get-own-property-names":"node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.assign":"node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es6.object.is":"node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.set-prototype-of":"node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es6.function.name":"node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.string.raw":"node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.from-code-point":"node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.code-point-at":"node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.repeat":"node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.starts-with":"node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.ends-with":"node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.includes":"node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.regexp.flags":"node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.array.from":"node_modules/core-js/modules/es6.array.from.js","core-js/modules/es6.array.of":"node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.copy-within":"node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.find":"node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.fill":"node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.iterator":"node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.number.is-finite":"node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-safe-integer":"node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.is-nan":"node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.epsilon":"node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.min-safe-integer":"node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.math.acosh":"node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es7.array.includes":"node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es7.object.values":"node_modules/core-js/modules/es7.object.values.js","core-js/modules/es7.object.entries":"node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es7.object.get-own-property-descriptors":"node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es7.string.pad-start":"node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/web.timers":"node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./lib/vue.js":"lib/vue.js","./lib/sort.js":"lib/sort.js"}],"../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -6265,7 +6297,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '44043' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '33449' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -6406,5 +6438,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../../../usr/local/share/.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/algorithms.23171171.map
