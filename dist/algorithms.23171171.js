@@ -5968,41 +5968,57 @@ var insert = function () {
     };
 }();
 
+var mergeSort = function mergeSort(left, right) {
+    if (left === undefined) return;
+    var result = [];
+    var il = 0;
+    var ir = 0;
+    while (il < left.length && ir < right.length) {
+        if (left[il] < right[ir]) {
+            result.push(left[il++]);
+        } else {
+            result.push(right[ir++]);
+        }
+    }
+    while (il < left.length) {
+        result.push(left[il++]);
+    }
+    while (ir < right.length) {
+        result.push(right[ir++]);
+    }
+    return result;
+};
+
 // 归并排序
-var mergeSort = function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(arr, ms, func) {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-            while (1) {
-                switch (_context5.prev = _context5.next) {
-                    case 0:
-                        // 第一个实际可用的排序算法,复杂度:O(nlog^n).
-                        // 对于 Array.prototype.sort
-                        // Mozila Firfox 采用 归并排序,而chrome采用的快排.
-                        console.log('采用分而治之的方式');
+var merge = function merge(arr) {
+    // 第一个实际可用的排序算法,复杂度:O(nlog^n).
+    // 对于 Array.prototype.sort
+    // Mozila Firfox 采用 归并排序,而chrome采用的快排.
+    // 归并排序是一种分而治之的算法
+    // 将原本分散的数组归并成较大的数组,直到最后只有一个排序完毕的大数组
+    // 第一步,将数组分散,成一个个最小单位
+    // 只有一个数就是终点
+    var len = arr.length;
+    if (len === 1) return arr;
 
-                    case 1:
-                    case 'end':
-                        return _context5.stop();
-                }
-            }
-        }, _callee5, _this);
-    }));
+    var mid = Math.floor(len / 2);
+    var left = arr.slice(0, mid);
+    var right = arr.slice(mid, len);
+    // 排序发生在归并过程中
+    // 由merge函数承担这项任务
 
-    return function mergeSort(_x13, _x14, _x15) {
-        return _ref6.apply(this, arguments);
-    };
-}();
+    return mergeSort(merge(left), merge(right));
+};
 
 module.exports = {
     pop: pop,
     improvePop: improvePop,
     select: select,
-    insert: insert
+    insert: insert,
+    merge: merge
 };
 },{}],"index.js":[function(require,module,exports) {
 'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('core-js/modules/es6.typed.array-buffer');
 
@@ -6204,65 +6220,18 @@ var _sort = require('./lib/sort.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 new _vue2.default({
 	el: document.querySelector('#root'),
 	data: function data() {
 		return {
 			time: 0,
-			arr: [4, 3, 2, 1, 8, 7, 6, 5]
+			arr: [8, 7, 6, 5, 4, 3, 2, 1]
 		};
 	},
-	mounted: function () {
-		var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-			var _this = this;
-
-			var result;
-			return regeneratorRuntime.wrap(function _callee$(_context) {
-				while (1) {
-					switch (_context.prev = _context.next) {
-						case 0:
-							// 交换策略  ,某个数字位于当前数字的 位置
-							result = (0, _sort.insert)(this.arr, 1000, function (i, j) {
-								if ((typeof i === 'undefined' ? 'undefined' : _typeof(i)) === 'object') {
-									_this.arr = i;
-									return i;
-								} else {
-									_this.time++;
-									var _ref2 = [_this.arr[j], _this.arr[i]];
-									_this.arr[i] = _ref2[0];
-									_this.arr[j] = _ref2[1];
-
-									_this.arr = [].concat(_toConsumableArray(_this.arr));
-									return _this.arr;
-								}
-							});
-							_context.t0 = console;
-							_context.next = 4;
-							return result;
-
-						case 4:
-							_context.t1 = _context.sent;
-
-							_context.t0.log.call(_context.t0, _context.t1);
-
-						case 6:
-						case 'end':
-							return _context.stop();
-					}
-				}
-			}, _callee, this);
-		}));
-
-		function mounted() {
-			return _ref.apply(this, arguments);
-		}
-
-		return mounted;
-	}(),
+	mounted: function mounted() {
+		// 交换策略  ,某个数字位于当前数字的 位置
+		this.arr = (0, _sort.merge)(this.arr);
+	},
 	created: function created() {
 		window.app = this;
 		console.log('i am created');
@@ -6297,7 +6266,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '33449' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '45427' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
