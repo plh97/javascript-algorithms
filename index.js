@@ -1,5 +1,8 @@
 import Vue from './lib/vue.js'
-import { merge } from './lib/sort.js';
+import { quickSort } from './lib/sort.js';
+import { 
+	stack 
+} from './lib/structures';
 import 'babel-polyfill';
 
 
@@ -11,9 +14,13 @@ new Vue({
 			arr: [8,7,6,5,4,3,2,1]
 		}
 	},
-	mounted(){
+	mounted() {
 		// 交换策略  ,某个数字位于当前数字的 位置
-		this.arr = merge(this.arr)
+		// this.arr.forEach(e => {
+		// 	stack.push(e)
+		// });
+		// stack.print()
+		this.arr = quickSort(this.arr);
 	},
 	created(){
 		window.app = this;
