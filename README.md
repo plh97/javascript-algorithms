@@ -68,6 +68,18 @@
 看到很多动画动态效果,突然蹦出很多解决思路.....比如轮播图要用双向链表去解决之类的....
 
 
+### 逛了一个小时知乎
+[程序员必须掌握哪些算法？](https://www.zhihu.com/question/23148377/answer/36824071)
+
+[自学python之后如果不去公司上班，自己一个人可以通过此技能挣什么钱？](https://www.zhihu.com/question/270720694/answer/447107038)
+
+[三本本科生能搞人工智能吗？](https://www.zhihu.com/question/275178587/answer/409568806)
+
+[SimonS - 浙大](https://www.zhihu.com/people/simonshao/activities)
+
+一首凉凉送给自己....
+
+
 
 ### 数据结构
 #### 链表
