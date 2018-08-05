@@ -5704,8 +5704,477 @@ var Vue = function () {
 }();
 
 exports.default = Vue;
+},{}],"lib/structures.js":[function(require,module,exports) {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// 栈,
+// 后入先出LIFO
+// 代表类型,函数执行栈
+var Stack = function () {
+    function Stack() {
+        _classCallCheck(this, Stack);
+
+        this.item = [];
+    }
+
+    _createClass(Stack, [{
+        key: 'isEmpty',
+        value: function isEmpty() {
+            return this.item.length == 0;
+        }
+    }, {
+        key: 'size',
+        value: function size() {
+            return this.item.length;
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.item = [];
+        }
+    }, {
+        key: 'print',
+        value: function print() {
+            console.log(this.item);
+        }
+    }, {
+        key: 'add',
+        value: function add(e) {
+            this.item.push(e);
+        }
+    }, {
+        key: 'pop',
+        value: function pop(e) {
+            return this.item.pop();
+        }
+    }]);
+
+    return Stack;
+}();
+
+var stack = new Stack();
+
+// 队列 ==> FIFO(First In First Out/先入先出)
+
+var Queue = function () {
+    function Queue() {
+        _classCallCheck(this, Queue);
+
+        this.item = [];
+    }
+    // 压入队列
+
+
+    _createClass(Queue, [{
+        key: 'enqueue',
+        value: function enqueue(e) {
+            console.log(this);
+
+            this.item.push(e);
+        }
+        // 移出队列
+
+    }, {
+        key: 'dequeue',
+        value: function dequeue() {
+            return this.item.shift();
+        }
+        // 返回队列第一个数
+
+    }, {
+        key: 'front',
+        value: function front() {
+            return this.item[0];
+        }
+        // 队列长度
+
+    }, {
+        key: 'size',
+        value: function size() {
+            return this.item.length;
+        }
+        // 是否为空
+
+    }, {
+        key: 'isEmpty',
+        value: function isEmpty() {
+            return this.item.length === 0;
+        }
+        // 打印
+
+    }, {
+        key: 'print',
+        value: function print() {
+            console.log(this.item);
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.item = [];
+        }
+    }]);
+
+    return Queue;
+}();
+
+var queue = new Queue();
+
+// 单向节点 
+
+var LinkNode = function LinkNode() {
+    var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var next = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    _classCallCheck(this, LinkNode);
+
+    this.val = val;
+    this.next = next;
+};
+
+// 链表
+
+
+var LinkList = function () {
+    function LinkList() {
+        _classCallCheck(this, LinkList);
+
+        // 根节点
+        this.root = new LinkNode();
+        // 长度
+        this.length = 0;
+    }
+    // 在最后一个位置插入
+
+
+    _createClass(LinkList, [{
+        key: 'append',
+        value: function append(e) {
+            node = this.root;
+            while (node.next !== null) {
+                node = node.next;
+            }
+            if (this.root.val == null) {
+                this.root = new LinkNode(e);
+            } else {
+                node.next = new LinkNode(e);
+            }
+            this.length++;
+        }
+        // i位置移除
+
+    }, {
+        key: 'remove',
+        value: function remove(i) {
+            var index = 0;
+            var currentNode = this.root;
+            var prev = void 0;
+
+            if (i === 0) {
+                this.root = this.root.next;
+            } else if (i >= this.length || i < 0) {
+                throw new Error('\u4F60\u8981\u5220\u9664\u7684\u7B2C' + i + '\u4E2A\u5B57\u7B26\u4E0D\u5B58\u5728');
+            } else {
+                while (index < i) {
+                    prev = currentNode;
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    prev.next = currentNode.next;
+                    currentNode = null;
+                }
+            }
+            this.length--;
+        }
+        // 任意指定位置插入
+
+    }, {
+        key: 'insert',
+        value: function insert(i, e) {
+            var index = 0;
+            var currentNode = this.root;
+            var insertNode = new LinkNode(e);
+            var prev = void 0;
+            if (i === 0) {
+                insertNode.next = this.root;
+                this.root = insertNode;
+            } else if (i >= this.length || i < 0) {
+                throw new Error('\u4E0D\u5B58\u5728\u7B2C' + i + '\u4E2A\u4F4D\u7F6E');
+            } else {
+                while (index < i) {
+                    prev = currentNode;
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    prev.next = insertNode;
+                    insertNode.next = currentNode;
+                }
+            }
+            this.length++;
+        }
+        // 找出元素的位置
+
+    }, {
+        key: 'indexOf',
+        value: function indexOf(e) {
+            var index = 0;
+            var currentNode = this.root;
+            while (index < this.length) {
+                if (currentNode.val === e) {
+                    return index;
+                } else {
+                    index++;
+                }
+                currentNode = currentNode.next;
+            }
+            throw Error(e + '\u4E0D\u5B58\u5728');
+        }
+        // 是否为空
+
+    }, {
+        key: 'isEmpty',
+        value: function isEmpty() {
+            return this.root.val === null;
+        }
+        // 返回第一个元素
+
+    }, {
+        key: 'front',
+        value: function front() {
+            return this.root.val;
+        }
+        // 返回最后一个元素
+
+    }, {
+        key: 'end',
+        value: function end() {
+            var currentNode = this.root;
+            while (currentNode.next !== null) {
+                currentNode = currentNode.next;
+            }
+            return currentNode.val;
+        }
+        // 返回链表的长度
+
+    }, {
+        key: 'size',
+        value: function size() {
+            return this.length;
+        }
+        // 数组形式打印真个列表
+
+    }, {
+        key: 'print',
+        value: function print() {
+            node = this.root;
+            var val = [this.root.val];
+            while (node.next !== null) {
+                node = node.next;
+                val.push(node.val);
+            }
+            console.log('val:', val);
+        }
+    }]);
+
+    return LinkList;
+}();
+
+var link = new LinkList();
+
+// 双向节点
+
+var DbLinkNode = function DbLinkNode() {
+    var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var next = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var prev = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    _classCallCheck(this, DbLinkNode);
+
+    this.val = val;
+    this.next = next;
+    this.prev = prev;
+};
+
+// 双向链表
+
+
+var DoubleLinkList = function () {
+    function DoubleLinkList() {
+        _classCallCheck(this, DoubleLinkList);
+
+        // 根节点
+        this.root = new DbLinkNode();
+        // 长度
+        this.length = 0;
+    }
+    // 任意指定位置插入
+
+
+    _createClass(DoubleLinkList, [{
+        key: 'insert',
+        value: function insert(i, e) {
+            var index = 0;
+            var currentNode = this.root;
+            var node = new DbLinkNode(e);
+            var prev = void 0;
+            if (i === 0) {
+                this.root = node;
+            } else if (i >= this.length || i < 0) {
+                throw new Error('\u4E0D\u5B58\u5728\u7B2C' + i + '\u4E2A\u4F4D\u7F6E');
+            } else {
+                while (index < i) {
+                    // 先找到节点位置
+                    prev = currentNode;
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    prev.next = node;
+                    node.next = currentNode;
+                    node.prev = prev;
+                }
+            }
+            this.length++;
+        }
+        // 在最后一个位置插入
+
+    }, {
+        key: 'append',
+        value: function append(e) {
+            node = this.root;
+            while (node.next !== null) {
+                node = node.next;
+            }
+            if (this.root.val == null) {
+                this.root = new DoubleLinkNode(e);
+            } else {
+                node.next = new DoubleLinkNode(e);
+            }
+            this.length++;
+        }
+        // i位置移除
+
+    }, {
+        key: 'remove',
+        value: function remove(i) {
+            var index = 0;
+            var currentNode = this.root;
+            var prev = void 0;
+
+            if (i === 0) {
+                this.root = this.root.next;
+            } else if (i >= this.length || i < 0) {
+                throw new Error('\u4F60\u8981\u5220\u9664\u7684\u7B2C' + i + '\u4E2A\u5B57\u7B26\u4E0D\u5B58\u5728');
+            } else {
+                while (index < i) {
+                    prev = currentNode;
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    prev.next = currentNode.next;
+                    currentNode = null;
+                }
+            }
+            this.length--;
+        }
+        // 找出元素的位置
+
+    }, {
+        key: 'indexOf',
+        value: function indexOf(e) {
+            var index = 0;
+            var currentNode = this.root;
+            while (index < this.length) {
+                if (currentNode.val === e) {
+                    return index;
+                } else {
+                    index++;
+                }
+                currentNode = currentNode.next;
+            }
+            throw Error(e + '\u4E0D\u5B58\u5728');
+        }
+        // 是否为空
+
+    }, {
+        key: 'isEmpty',
+        value: function isEmpty() {
+            return this.root.val === null;
+        }
+        // 返回第一个元素
+
+    }, {
+        key: 'front',
+        value: function front() {
+            return this.root.val;
+        }
+        // 返回最后一个元素
+
+    }, {
+        key: 'end',
+        value: function end() {
+            var currentNode = this.root;
+            while (currentNode.next !== null) {
+                currentNode = currentNode.next;
+            }
+            return currentNode.val;
+        }
+        // 返回链表的长度
+
+    }, {
+        key: 'size',
+        value: function size() {
+            return this.length;
+        }
+        // 数组形式打印真个列表
+
+    }, {
+        key: 'print',
+        value: function print() {
+            node = this.root;
+            var val = [this.root.val];
+            while (node.next !== null) {
+                node = node.next;
+                val.push(node.val);
+            }
+            console.log('val:', val, this.root);
+        }
+    }]);
+
+    return DoubleLinkList;
+}();
+
+var dbLinkList = new DoubleLinkList();
+
+module.exports = {
+    stack: stack,
+    queue: queue,
+    link: link,
+    dbLinkList: dbLinkList
+};
+
+root = {
+    first: {
+        num: 1,
+        inner: function inner() {
+            console.log(this);
+        }
+    },
+    sec: '2',
+    thrid: function thrid() {
+        console.log(this.first.inner());
+    }
+};
 },{}],"lib/sort.js":[function(require,module,exports) {
-var _this = this;
+'use strict';
+
+var _this = undefined;
+
+var _structures = require('./structures');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -6031,68 +6500,50 @@ var quickSort = function quickSort(arr) {
     return [].concat(_toConsumableArray(quickSort(left)), [pivot], _toConsumableArray(quickSort(right)));
 };
 
+// 堆排序
+// 算了弄不懂,我放弃...
+// 还是先弄二叉树结构吧...
+var heap = function heap(arr) {
+    return arr;
+};
+
+// 十进制转n进制
+// num:要转的数字   ary:数的进制
+var divided = function divided(num, ary) {
+    while (num / ary > 0) {
+        _structures.stack.add(num % ary);
+        num = Math.floor(num / ary);
+    }
+    var tran = {
+        10: 'a',
+        11: 'b',
+        12: 'c',
+        13: 'd',
+        14: 'e',
+        15: 'f'
+    };
+    var result = '';
+    while (_structures.stack.item.length > 0) {
+        var e = _structures.stack.pop();
+        if (e > 9) {
+            result += tran[e];
+        } else {
+            result += e;
+        }
+    }
+    return result;
+};
+
 module.exports = {
     pop: pop,
     improvePop: improvePop,
     select: select,
     insert: insert,
     merge: merge,
-    quickSort: quickSort
+    quickSort: quickSort,
+    divided: divided
 };
-},{}],"lib/structures.js":[function(require,module,exports) {
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// 栈,
-var Stack = function () {
-    function Stack() {
-        _classCallCheck(this, Stack);
-
-        this.item = [];
-    }
-
-    _createClass(Stack, [{
-        key: "isEmpty",
-        value: function isEmpty() {
-            return this.item.length == 0;
-        }
-    }, {
-        key: "size",
-        value: function size() {
-            return this.item.length;
-        }
-    }, {
-        key: "clear",
-        value: function clear() {
-            this.item = [];
-        }
-    }, {
-        key: "print",
-        value: function print() {
-            console.log(this.item);
-        }
-    }, {
-        key: "push",
-        value: function push(e) {
-            this.item.push(e);
-        }
-    }, {
-        key: "pop",
-        value: function pop(e) {
-            return this.item.pop();
-        }
-    }]);
-
-    return Stack;
-}();
-
-var stack = new Stack();
-
-module.exports = {
-    stack: stack
-};
-},{}],"index.js":[function(require,module,exports) {
+},{"./structures":"lib/structures.js"}],"index.js":[function(require,module,exports) {
 'use strict';
 
 require('core-js/modules/es6.typed.array-buffer');
@@ -6306,12 +6757,9 @@ new _vue2.default({
 		};
 	},
 	mounted: function mounted() {
-		// 交换策略  ,某个数字位于当前数字的 位置
-		// this.arr.forEach(e => {
-		// 	stack.push(e)
-		// });
-		// stack.print()
-		this.arr = (0, _sort.quickSort)(this.arr);
+		_structures.dbLinkList.insert(0, 111);
+		_structures.dbLinkList.insert(0, 222);
+		_structures.dbLinkList.print();
 	},
 	created: function created() {
 		window.app = this;
@@ -6347,7 +6795,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '40473' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '40383' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
