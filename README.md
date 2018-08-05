@@ -69,17 +69,16 @@
 
 
 ### 逛了一个小时知乎
-[程序员必须掌握哪些算法？](https://www.zhihu.com/question/23148377/answer/36824071)
+- [程序员必须掌握哪些算法？](https://www.zhihu.com/question/23148377/answer/36824071)
 
-[自学python之后如果不去公司上班，自己一个人可以通过此技能挣什么钱？](https://www.zhihu.com/question/270720694/answer/447107038)
+- [自学python之后如果不去公司上班，自己一个人可以通过此技能挣什么钱？](https://www.zhihu.com/question/270720694/answer/447107038)
 
-[三本本科生能搞人工智能吗？](https://www.zhihu.com/question/275178587/answer/409568806)
+- [三本本科生能搞人工智能吗？](https://www.zhihu.com/question/275178587/answer/409568806)
 
-[SimonS - 浙大](https://www.zhihu.com/people/simonshao/activities)
+- [SimonS - 浙大](https://www.zhihu.com/people/simonshao/activities)
 
-[参加IT公司的技术面试时，遇到不会的问题应该如何和面试官沟通?
+- [参加IT公司的技术面试时，遇到不会的问题应该如何和面试官沟通?
 ](https://www.zhihu.com/question/22339100)
-
 年轻的时候参加面试，有一次也遇到同样的难处，我的回答是：“这个我现在不知道，不过给我一天时间我就可以知道”，入职以后这哥们说“当时我就看中你这一点了——如此无知还如此自信，够无耻”。
 
 一首凉凉送给自己....
