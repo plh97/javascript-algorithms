@@ -203,3 +203,7 @@ criDbLinkList.append('是否');
 criDbLinkList.append('不是');
 ```
 
+### 发布
+```bash
+npm publish --access=public
+```
