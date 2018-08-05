@@ -1,6 +1,6 @@
-### program = algorithms + structures
 
-
+### 总的来说
+program = algorithms + structures
 
 ### 前言
 什么样的人需要学习数据结构与算法
