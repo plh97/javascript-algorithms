@@ -8,6 +8,8 @@
 	<style>
 		.container {
 			position: relative;
+			width: 100%;
+			height: 130px;
 		}
 		.card {
 			position: absolute;
@@ -24,11 +26,52 @@
 			justify-content: center;
 			transition: all 0.1s ease-in-out;
 		}
+		.swiper-image {
+			border: 1px solid #333;
+			font-size: 40px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			transition: all 0.1s ease-in-out;
+			left: calc(50% - 100px);
+			width: 200px;
+			height: 260px;
+			border-radius: 10px;
+			background-color: #ccc;
+		}
+		.swiper-image:nth-child(1){
+			background: red;
+			z-index: 1;
+		}
+		.swiper-image:nth-child(2){
+			z-index: 2;
+			background: pink;
+		}
+		.swiper-image:nth-child(3){
+			background: yellow;
+			z-index: 3;
+		}
+		.swiper-image:nth-child(4){
+			background: green;
+			z-index: 2;
+		}
+		.swiper-image:nth-child(5){
+			background: blueviolet;
+			z-index: 1;
+		}
+
 	</style>
 </head>
 <body>
 	<div id="root" class="container">
-		<span class="card" :style="`transform: translate(${(arr.indexOf(i+1))*120}%,${time*20}%);`" v-for="e in arr">{{i+1}}</span>
+		<!-- <span class="card" :style="`transform: translate(${(arr.indexOf(i+1))*120}%,${time*20}%);`" v-for="e in arr">{{i+1}}</span> -->
+		<span class="swiper-image" :style="`
+			transform: translateX(${(i-2)*60}%) 
+			scale(${1 - 0.1*(Math.abs(i-2))});
+		`" v-for="e in arr">
+
+		</span>
 	</div>
 	<script src="index.js"></script>
 </body>
