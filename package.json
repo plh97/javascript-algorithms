@@ -1,17 +1,31 @@
 {
   "name": "@pengliheng/algorithms",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "personal package, everyone can use it",
   "main": "index.js",
   "scripts": {
     "par": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "pengliheng",
   "license": "ISC",
   "dependencies": {
+    "@pengliheng/algorithms": "^1.0.1",
     "babel-polyfill": "^6.26.0",
     "lib": "^3.0.2",
     "react-vapor": "^2.24.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pengliheng/algorithms.git"
+  },
+  "keywords": [
+    "algorithms",
+    "structures"
+  ],
+  "bugs": {
+    "url": "https://github.com/pengliheng/algorithms/issues"
+  },
+  "homepage": "https://github.com/pengliheng/algorithms#readme"
 }

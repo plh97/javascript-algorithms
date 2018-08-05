@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@pengliheng/algorithms@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pengliheng/algorithms/-/algorithms-1.0.1.tgz#b9325508cab4c26c84ff5be7956683fd69879e9b"
+  dependencies:
+    babel-polyfill "^6.26.0"
+    lib "^3.0.2"
+    react-vapor "^2.24.2"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

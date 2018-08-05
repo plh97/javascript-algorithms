@@ -8,6 +8,7 @@ import {
 	queue,
 	link,
 	dbLinkList,
+	CricleDoubleLinkList,
 } from './lib/structures';
 import 'babel-polyfill';
 
@@ -21,10 +22,13 @@ new Vue({
 		}
 	},
 	mounted() {
-		dbLinkList.insert(0,111);
-		dbLinkList.insert(0,222);
-		dbLinkList.print()
+		const criDbLinkList = new CricleDoubleLinkList();
+		criDbLinkList.append(222);
+		criDbLinkList.append(123);
+		criDbLinkList.append('是否');
+		criDbLinkList.append('不是');
 		
+		window.db = dbLinkList;
 	},
 	created(){
 		window.app = this;

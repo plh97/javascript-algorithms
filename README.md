@@ -82,16 +82,124 @@
 年轻的时候参加面试，有一次也遇到同样的难处，我的回答是：“这个我现在不知道，不过给我一天时间我就可以知道”，入职以后这哥们说“当时我就看中你这一点了——如此无知还如此自信，够无耻”。
 
 一首凉凉送给自己....
+不懂算法和数据结构还能算是程序员么.....
 
 
 
-### 数据结构
-#### 链表
-#### 树状结构
-#### 图结构
-
-
-
-## 排序算法
 
 ### 冒泡排序
+```js
+const pop = async (arr, ms, func) => {
+    let time = 0;
+    console.log('冒泡排序:比较相邻两个元素大小,如果第一个比第二个大,则交换他们.');
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                console.log(`交换: ${j}-${j+1},  第${++time}次.`)
+                arr = func(j, j + 1);
+            } else {
+                console.log(`不用交换: ${j} - ${j+1},  第${++time}次.`)
+            }
+            await dely(ms)
+        }
+    }
+    return `冒泡排序完成,一共花了${time}次,O(n^2)复杂度`;
+}
+```
+
+### 归并
+```js
+const mergeSort = (left, right) => {
+    if (left === undefined) return;
+    var result = [];
+    var il = 0;
+    var ir = 0;
+    while (il < left.length && ir < right.length) {
+        if (left[il] < right[ir]) {
+            result.push(left[il++])
+        } else {
+            result.push(right[ir++])
+        }
+    }
+    while (il < left.length) {
+        result.push(left[il++])
+    }
+    while (ir < right.length) {
+        result.push(right[ir++])
+    }
+    return result
+}
+const merge = (arr) => {
+    // 第一个实际可用的排序算法,复杂度:O(nlog^n).
+    // 对于 Array.prototype.sort
+    // Mozila Firfox 采用 归并排序,而chrome采用的快排.
+    // 归并排序是一种分而治之的算法
+    // 将原本分散的数组归并成较大的数组,直到最后只有一个排序完毕的大数组
+    // 第一步,将数组分散,成一个个最小单位
+    // 只有一个数就是终点
+    const len = arr.length;
+    if (len === 1) return arr;
+    const mid = Math.floor(len / 2);
+    const left = arr.slice(0, mid);
+    const right = arr.slice(mid, len);
+    // 排序发生在归并过程中
+    // 由merge函数承担这项任务
+    return mergeSort(merge(left), merge(right))
+}
+```
+
+
+
+### 快排算法
+```js
+var quickSort = function (arr) {　　
+    if (arr.length <= 1) return arr;　　
+    var pivotIndex = Math.floor(arr.length / 2);　　
+    var pivot = arr.splice(pivotIndex, 1)[0];　　
+    var left = [];　　
+    var right = [];　　
+    for (var i = 0; i < arr.length; i++) {　　　　
+        if (arr[i] < pivot) {　　　　　　
+            left.push(arr[i]);　　　　
+        } else {　　　　　　
+            right.push(arr[i]);
+        }
+    }　　
+    return [
+        ...quickSort(left),
+        pivot,
+        ...quickSort(right)
+    ]
+};
+```
+
+
+### usage/用法
+已经put到npm上面了
+```js
+yarn add @pengliheng/algorithms
+
+import { 
+	quickSort,  // 快排算法
+	merge,  // 快排算法
+	pop,    // 冒泡算法算法
+	divided
+} from '@pengliheng/algorithms/lib/sort.js';
+import { 
+	stack,  // 栈 , 和 Array没毛区别
+	queue,  // 队列
+	link,  // 单项链表
+	dbLinkList,// 双向链表
+	CricleDoubleLinkList,  // 循环双向链表,准备用来做轮播图
+} from '@pengliheng/algorithms/lib/structures';
+
+var newArr = quickSort(arr);
+console.log(newArr);
+
+const criDbLinkList = new CricleDoubleLinkList();
+criDbLinkList.append(222);
+criDbLinkList.append(123);
+criDbLinkList.append('是否');
+criDbLinkList.append('不是');
+```
+

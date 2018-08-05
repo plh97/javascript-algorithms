@@ -6006,7 +6006,8 @@ var DoubleLinkList = function () {
         _classCallCheck(this, DoubleLinkList);
 
         // 根节点
-        this.root = new DbLinkNode();
+        this.head = null;
+        this.tail = null;
         // 长度
         this.length = 0;
     }
@@ -6017,41 +6018,43 @@ var DoubleLinkList = function () {
         key: 'insert',
         value: function insert(i, e) {
             var index = 0;
-            var currentNode = this.root;
+            var currentNode = this.head;
             var node = new DbLinkNode(e);
             var prev = void 0;
             if (i === 0) {
-                this.root = node;
-            } else if (i >= this.length || i < 0) {
+                // 在首部插入元素
+                if (this.head == null) {
+                    // 如果元素为空,直接头部尾部
+                    this.head = node;
+                    this.tail = node;
+                } else {
+                    // 元素不为空
+                    node.next = this.head;
+                    this.head.prev = node;
+                    this.head = node;
+                }
+            } else if (i > this.length || i < 0) {
                 throw new Error('\u4E0D\u5B58\u5728\u7B2C' + i + '\u4E2A\u4F4D\u7F6E');
+            } else if (i === this.length) {
+                // 尾部插入数组
+                node.prev = this.tail;
+                this.tail.next = node;
+                this.tail = node;
             } else {
                 while (index < i) {
                     // 先找到节点位置
-                    prev = currentNode;
                     currentNode = currentNode.next;
                     index++;
                 }
                 if (index === i) {
-                    prev.next = node;
-                    node.next = currentNode;
-                    node.prev = prev;
-                }
-            }
-            this.length++;
-        }
-        // 在最后一个位置插入
+                    // 插入节点和上一个节点建立双向关系
+                    node.prev = currentNode.prev;
+                    node.prev.next = node;
 
-    }, {
-        key: 'append',
-        value: function append(e) {
-            node = this.root;
-            while (node.next !== null) {
-                node = node.next;
-            }
-            if (this.root.val == null) {
-                this.root = new DoubleLinkNode(e);
-            } else {
-                node.next = new DoubleLinkNode(e);
+                    // 插入节点和下一个节点建立双向关系
+                    node.next = currentNode;
+                    node.next.prev = node;
+                }
             }
             this.length++;
         }
@@ -6061,25 +6064,48 @@ var DoubleLinkList = function () {
         key: 'remove',
         value: function remove(i) {
             var index = 0;
-            var currentNode = this.root;
-            var prev = void 0;
-
+            var currentNode = this.head;
             if (i === 0) {
-                this.root = this.root.next;
+                this.head = this.head.next;
+                this.head.prev = null;
+            } else if (i === this.length - 1) {
+                this.tail = this.tail.prev;
+                this.tail.next = null;
             } else if (i >= this.length || i < 0) {
                 throw new Error('\u4F60\u8981\u5220\u9664\u7684\u7B2C' + i + '\u4E2A\u5B57\u7B26\u4E0D\u5B58\u5728');
             } else {
                 while (index < i) {
-                    prev = currentNode;
                     currentNode = currentNode.next;
                     index++;
                 }
                 if (index === i) {
-                    prev.next = currentNode.next;
+                    // 为当前节点的上一个节点和当前节点的下一个节点建立双向关系
+                    currentNode.prev.next = currentNode.next;
+                    currentNode.next.prev = currentNode.prev;
+                    // 销毁当前节点
                     currentNode = null;
                 }
             }
             this.length--;
+        }
+        // 在最后一个位置插入
+
+    }, {
+        key: 'append',
+        value: function append(e) {
+            var node = new DbLinkNode(e);
+            if (this.length === 0) {
+                this.head = node;
+                this.tail = node;
+            } else if (this.length === 1) {
+                this.head.next = node;
+                this.tail = node;
+            } else {
+                this.tail.next = node;
+                node.prev = this.tail;
+                this.tail = node;
+            }
+            this.length++;
         }
         // 找出元素的位置
 
@@ -6087,7 +6113,7 @@ var DoubleLinkList = function () {
         key: 'indexOf',
         value: function indexOf(e) {
             var index = 0;
-            var currentNode = this.root;
+            var currentNode = this.head;
             while (index < this.length) {
                 if (currentNode.val === e) {
                     return index;
@@ -6103,25 +6129,21 @@ var DoubleLinkList = function () {
     }, {
         key: 'isEmpty',
         value: function isEmpty() {
-            return this.root.val === null;
+            return this.length === 0;
         }
         // 返回第一个元素
 
     }, {
         key: 'front',
         value: function front() {
-            return this.root.val;
+            return this.head.val;
         }
         // 返回最后一个元素
 
     }, {
         key: 'end',
         value: function end() {
-            var currentNode = this.root;
-            while (currentNode.next !== null) {
-                currentNode = currentNode.next;
-            }
-            return currentNode.val;
+            return this.tail.val;
         }
         // 返回链表的长度
 
@@ -6135,13 +6157,13 @@ var DoubleLinkList = function () {
     }, {
         key: 'print',
         value: function print() {
-            node = this.root;
-            var val = [this.root.val];
+            node = this.head;
+            var val = [this.head.val];
             while (node.next !== null) {
                 node = node.next;
                 val.push(node.val);
             }
-            console.log('val:', val, this.root);
+            console.log('val:', val, this.head);
         }
     }]);
 
@@ -6150,24 +6172,185 @@ var DoubleLinkList = function () {
 
 var dbLinkList = new DoubleLinkList();
 
+// 循环双向链表
+// 尾部下一个指向首部
+
+var CricleDoubleLinkList = function () {
+    function CricleDoubleLinkList() {
+        _classCallCheck(this, CricleDoubleLinkList);
+
+        // 根节点
+        this.head = null;
+        this.tail = null;
+        // 长度
+        this.length = 0;
+    }
+    // 任意指定位置插入
+
+
+    _createClass(CricleDoubleLinkList, [{
+        key: 'insert',
+        value: function insert(i, e) {
+            var index = 0;
+            var currentNode = this.head;
+            var node = new DbLinkNode(e);
+            if (i === 0) {
+                // 在首部插入元素
+                if (this.head == null) {
+                    // 如果元素为空,直接头部尾部
+                    this.head = node;
+                    this.tail = node;
+                } else {
+                    // 元素不为空
+                    node.next = this.head;
+                    this.head.prev = node;
+                    this.head = node;
+                }
+            } else if (i > this.length || i < 0) {
+                throw new Error('\u4E0D\u5B58\u5728\u7B2C' + i + '\u4E2A\u4F4D\u7F6E');
+            } else if (i === this.length) {
+                // 尾部插入数组
+                node.prev = this.tail;
+                this.tail.next = node;
+                this.tail = node;
+            } else {
+                while (index < i) {
+                    // 先找到节点位置
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    // 插入节点和上一个节点建立双向关系
+                    node.prev = currentNode.prev;
+                    node.prev.next = node;
+
+                    // 插入节点和下一个节点建立双向关系
+                    node.next = currentNode;
+                    node.next.prev = node;
+                }
+            }
+            this.length++;
+        }
+        // i位置移除
+
+    }, {
+        key: 'remove',
+        value: function remove(i) {
+            var index = 0;
+            var currentNode = this.head;
+            if (i === 0) {
+                this.head = this.head.next;
+                this.head.prev = null;
+            } else if (i === this.length - 1) {
+                this.tail = this.tail.prev;
+                this.tail.next = null;
+            } else if (i >= this.length || i < 0) {
+                throw new Error('\u4F60\u8981\u5220\u9664\u7684\u7B2C' + i + '\u4E2A\u5B57\u7B26\u4E0D\u5B58\u5728');
+            } else {
+                while (index < i) {
+                    currentNode = currentNode.next;
+                    index++;
+                }
+                if (index === i) {
+                    // 为当前节点的上一个节点和当前节点的下一个节点建立双向关系
+                    currentNode.prev.next = currentNode.next;
+                    currentNode.next.prev = currentNode.prev;
+                    // 销毁当前节点
+                    currentNode = null;
+                }
+            }
+            this.length--;
+        }
+        // 在最后一个位置插入
+
+    }, {
+        key: 'append',
+        value: function append(e) {
+            var node = new DbLinkNode(e);
+            if (this.length === 0) {
+                this.head = node;
+                this.tail = node;
+            } else if (this.length === 1) {
+                this.head.next = node;
+                this.tail = node;
+            } else {
+                this.tail.next = node;
+                node.prev = this.tail;
+                this.tail = node;
+            }
+            this.length++;
+        }
+        // 找出元素的位置
+
+    }, {
+        key: 'indexOf',
+        value: function indexOf(e) {
+            var index = 0;
+            var currentNode = this.head;
+            while (index < this.length) {
+                if (currentNode.val === e) {
+                    return index;
+                } else {
+                    index++;
+                }
+                currentNode = currentNode.next;
+            }
+            throw Error(e + '\u4E0D\u5B58\u5728');
+        }
+        // 是否为空
+
+    }, {
+        key: 'isEmpty',
+        value: function isEmpty() {
+            return this.length === 0;
+        }
+        // 返回第一个元素
+
+    }, {
+        key: 'front',
+        value: function front() {
+            return this.head.val;
+        }
+        // 返回最后一个元素
+
+    }, {
+        key: 'end',
+        value: function end() {
+            return this.tail.val;
+        }
+        // 返回链表的长度
+
+    }, {
+        key: 'size',
+        value: function size() {
+            return this.length;
+        }
+        // 数组形式打印真个列表
+
+    }, {
+        key: 'print',
+        value: function print() {
+            var index = 0;
+            node = this.head;
+            var val = [this.head.val];
+            while (index !== this.length) {
+                index++;
+                node = node.next;
+                val.push(node.val);
+            }
+            console.log('val:', val, this.head);
+        }
+    }]);
+
+    return CricleDoubleLinkList;
+}();
+
 module.exports = {
     stack: stack,
     queue: queue,
     link: link,
-    dbLinkList: dbLinkList
-};
-
-root = {
-    first: {
-        num: 1,
-        inner: function inner() {
-            console.log(this);
-        }
-    },
-    sec: '2',
-    thrid: function thrid() {
-        console.log(this.first.inner());
-    }
+    dbLinkList: dbLinkList,
+    CricleDoubleLinkList: CricleDoubleLinkList
 };
 },{}],"lib/sort.js":[function(require,module,exports) {
 'use strict';
@@ -6469,7 +6652,6 @@ var merge = function merge(arr) {
     // 只有一个数就是终点
     var len = arr.length;
     if (len === 1) return arr;
-
     var mid = Math.floor(len / 2);
     var left = arr.slice(0, mid);
     var right = arr.slice(mid, len);
@@ -6483,7 +6665,6 @@ var merge = function merge(arr) {
 // 选择一个点作为基点,循环这个数组,仅仅只将小于基点的数排在左边,大于基点的数排在右边,重新组合,
 // 继续递归左边的数字,以及右边的数组,quickSort作为函数,右边数组左边数组分别作为输入,
 // 输出的数组继续递归,直到遇到长度为1的数组.停止递归.
-
 var quickSort = function quickSort(arr) {
     if (arr.length <= 1) return arr;
     var pivotIndex = Math.floor(arr.length / 2);
@@ -6757,9 +6938,13 @@ new _vue2.default({
 		};
 	},
 	mounted: function mounted() {
-		_structures.dbLinkList.insert(0, 111);
-		_structures.dbLinkList.insert(0, 222);
-		_structures.dbLinkList.print();
+		var criDbLinkList = new _structures.CricleDoubleLinkList();
+		criDbLinkList.append(222);
+		criDbLinkList.append(123);
+		criDbLinkList.append('是否');
+		criDbLinkList.append('不是');
+
+		window.db = _structures.dbLinkList;
 	},
 	created: function created() {
 		window.app = this;
@@ -6795,7 +6980,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '40383' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '43571' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
