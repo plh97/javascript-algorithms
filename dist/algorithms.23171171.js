@@ -5628,12 +5628,9 @@ var Vue = function () {
 			if (_typeof(this.opt[key]) === 'object') {
 				this.opt[key].forEach(function (e, i, arr) {
 					var style = _this2.root.querySelector('[' + _this2.dep['this.' + key + '.' + i] + ']').getAttribute(':style');
-					var time = _this2.opt.time;
 
-					// root.querySelector(`[${this.dep[`this.${key}.${i}`]}]`).style.transform = `translateX(${(e-2)*120}%) scale(${1 - 0.1*(Math.abs(e-2))});
-					root.querySelector('[' + _this2.dep['this.' + key + '.' + i] + ']').style.transform = 'translateX(' + (3 - e) * 60 + '%) scale(' + (1 - 0.1 * Math.abs(e - 3)) + ')';
+					root.querySelector('[' + _this2.dep['this.' + key + '.' + i] + ']').style.transform = 'translateX(' + (e - 3) * 60 + '%) scale(' + (1 - 0.1 * Math.abs(e - 3)) + ')';
 					root.querySelector('[' + _this2.dep['this.' + key + '.' + i] + ']').style.zIndex = '' + (5 - Math.abs(3 - e));
-					// root.querySelector(`[${this.dep[`this.${key}.${i}`]}]`).innerHTML = i+1;
 				});
 			}
 		}
@@ -6378,12 +6375,193 @@ var CricleDoubleLinkList = function () {
     return CricleDoubleLinkList;
 }();
 
+var BinaryTreeNode = function BinaryTreeNode(val, left, right) {
+    _classCallCheck(this, BinaryTreeNode);
+
+    this.val = val;
+    this.left = left;
+    this.right = right;
+};
+
+// 二叉树
+
+
+var BinaryTree = function () {
+    function BinaryTree() {
+        _classCallCheck(this, BinaryTree);
+
+        this.root = undefined;
+    }
+
+    _createClass(BinaryTree, [{
+        key: 'insert',
+        value: function insert(val) {
+            // 待插入的新节点
+            var newNode = new BinaryTreeNode(val);
+            if (this.root === undefined) {
+                this.root = newNode;
+            } else {
+                // 待插入节点
+                var insertNodeFunc = function insertNodeFunc(no) {
+                    // 如果下一个节点为实,递归查找本节点
+                    if (val < no.val) {
+                        if (no.left === undefined) {
+                            // 
+                            no.left = newNode;
+                        } else {
+                            insertNodeFunc(no.left);
+                        }
+                    } else {
+                        if (no.right === undefined) {
+                            no.right = newNode;
+                        } else {
+                            insertNodeFunc(no.right);
+                        }
+                    }
+                };
+                insertNodeFunc(this.root);
+            }
+        }
+        // 中序,最先打印的是最左边的节点.
+
+    }, {
+        key: 'inOrderTraverse',
+        value: function inOrderTraverse(callback) {
+            var inOrderTraverseNode = function inOrderTraverseNode(node, callback) {
+                if (node === undefined) return;
+                inOrderTraverseNode(node.left, callback);
+                callback(node.val);
+                inOrderTraverseNode(node.right, callback);
+            };
+            if (this.root == undefined) {
+                console.log('根节点不存在');
+            } else {
+                inOrderTraverseNode(this.root, callback);
+            }
+        }
+        // 先序
+        // 最先打印的是根节点,先访问节点本身,再遍历所有节点
+
+    }, {
+        key: 'prevOrderTraverse',
+        value: function prevOrderTraverse(callback) {
+            var prevOrderTraverseNode = function prevOrderTraverseNode(node, callback) {
+                if (node === undefined) return;
+                callback(node.val);
+                prevOrderTraverseNode(node.left, callback);
+                prevOrderTraverseNode(node.right, callback);
+            };
+            if (this.root == undefined) {
+                console.log('根节点不存在');
+            } else {
+                prevOrderTraverseNode(this.root, callback);
+            }
+        }
+        // 后序
+        // 先访问节点的后代节点,再访问基点本身,通常用于计算一个目录和它所有子目录中所有文件所占空间的大小.
+        // 先打印最左边的节点
+
+    }, {
+        key: 'postOrderTraverse',
+        value: function postOrderTraverse(callback) {
+            var postOrderTraverseNode = function postOrderTraverseNode(node, callback) {
+                if (node === undefined) return;
+                postOrderTraverseNode(node.left, callback);
+                postOrderTraverseNode(node.right, callback);
+                callback(node.val);
+            };
+            if (this.root == undefined) {
+                console.log('根节点不存在');
+            } else {
+                postOrderTraverseNode(this.root, callback);
+            }
+        }
+    }, {
+        key: 'min',
+        value: function min() {
+            if (this.root == undefined) {
+                console.log('根节点不存在');
+            } else {
+                var minNode = function minNode(node) {
+                    if (node.left) {
+                        return minNode(node.left);
+                    } else {
+                        return node.val;
+                    }
+                };
+                return minNode(this.root);
+            }
+        }
+    }, {
+        key: 'max',
+        value: function max() {
+            if (this.root == undefined) {
+                console.log('根节点不存在');
+            } else {
+                var maxNode = function maxNode(node) {
+                    if (node.right) {
+                        return maxNode(node.right);
+                    } else {
+                        return node.val;
+                    }
+                };
+                return maxNode(this.root);
+            }
+        }
+        // 搜索特定值
+
+    }, {
+        key: 'search',
+        value: function search(val) {
+            if (this.root == undefined) {
+                return '找不到: ' + val;
+            } else {
+                var searchFunc = function searchFunc(node) {
+
+                    if (node === undefined) {
+                        console.log('找不到啊');
+                    } else if (node.val === val) {
+                        console.log('找到了');
+                        return node;
+                    } else if (node.val < val) {
+                        return searchFunc(node.right);
+                    } else if (node.val > val) {
+                        return searchFunc(node.left);
+                    }
+                };
+                return searchFunc(this.root);
+            }
+        }
+        // 移除某个值,只需要将他们交换
+
+    }, {
+        key: 'remove',
+        value: function remove(val) {
+            var currentNode = this.root;
+
+            if (this.root == undefined) {
+                return '找不到节点: ' + val;
+            } else {
+                if (val < currentNode) {}
+            }
+        }
+    }, {
+        key: 'print',
+        value: function print() {
+            return this.root;
+        }
+    }]);
+
+    return BinaryTree;
+}();
+
 module.exports = {
     stack: stack,
     queue: queue,
     link: link,
     dbLinkList: dbLinkList,
-    CricleDoubleLinkList: CricleDoubleLinkList
+    CricleDoubleLinkList: CricleDoubleLinkList,
+    BinaryTree: BinaryTree
 };
 },{}],"lib/sort.js":[function(require,module,exports) {
 'use strict';
@@ -28982,62 +29160,22 @@ new _vue2.default({
 	data: function data() {
 		return {
 			time: 0,
-			arr: [1, 2, 3, 4, 5]
+			arr: [1, 2, 3, 4, 5],
+			ms: 3000
 		};
 	},
 	mounted: function mounted() {
-		var _this = this;
+		var BST = new _structures.BinaryTree();
+		window.db = BST;
 
-		var criDbLinkList = new _structures.CricleDoubleLinkList();
-		this.arr.forEach(function (arr) {
-			criDbLinkList.append(arr);
+		BST.insert(5);
+		BST.insert(3);
+		BST.insert(7);
+		BST.insert(4);
+		BST.insert(8);
+		BST.postOrderTraverse(function (e) {
+			console.log(e);
 		});
-		// 将第一个元素推出,压入数组最后;
-		console.log(this.arr);
-
-		// setInterval(() => {
-		// 	criDbLinkList.append(
-		// 		criDbLinkList.unshift().val
-		// 	);
-		// 	this.arr = criDbLinkList.outputArr();
-		// 	console.log(this.arr);
-		// }, 1000);
-		document.querySelector('#root span:nth-child(3)').addEventListener('touchstart', function (e) {
-			var clientX = e.changedTouches[0].clientX;
-			var times = 0;
-			var proxyFunc = function proxyFunc(e) {
-				var _clientX = e.changedTouches[0].clientX;
-				if (times === Math.floor((_clientX - clientX) / 100)) {
-					console.log('not diff');
-					return;
-				} else {
-					console.log('diff');
-					times = Math.floor((_clientX - clientX) / 100);
-				}
-				if (times > 0) {
-					clientX = _clientX;
-					criDbLinkList.shift(criDbLinkList.pop().val);
-				} else {
-					clientX = _clientX;
-					criDbLinkList.append(criDbLinkList.unshift().val);
-				}
-				_this.arr = criDbLinkList.outputArr();
-
-				console.log(times);
-			};
-			e.target.addEventListener('touchmove', proxyFunc);
-			e.target.addEventListener('touchend', function (e) {
-				e.target.removeEventListener('touchmove', proxyFunc);
-			});
-		});
-
-		// 将最后一个元素推出,压入数组头部;
-		// criDbLinkList.shift(
-		// 	criDbLinkList.pop().val
-		// )
-
-
-		window.db = criDbLinkList;
 	},
 	created: function created() {
 		window.app = this;
@@ -29073,7 +29211,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '33711' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '35391' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
