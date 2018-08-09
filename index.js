@@ -28,14 +28,31 @@ new Vue({
 		const BST = new BinaryTree();
 		window.db = BST;
 		
-		BST.insert(5);
-		BST.insert(3);
+		BST.insert(11);
 		BST.insert(7);
-		BST.insert(4);
+		BST.insert(15);
+		BST.insert(5);
+		BST.insert(9);
+		BST.insert(13);
+		BST.insert(20);
+		BST.insert(3);
+		BST.insert(6);
 		BST.insert(8);
-		BST.postOrderTraverse((e)=>{
-			console.log(e);
-		});
+		BST.insert(10);
+		BST.insert(12);
+		BST.insert(14);
+		BST.insert(18);
+		BST.insert(25);
+		// BST.postOrderTraverse((e)=>{
+		// 	console.log(e);
+		// });
+		
+
+		console.log(
+			BST.remove(7)
+		);
+		
+
 
 		
 	},

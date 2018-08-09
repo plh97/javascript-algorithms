@@ -6479,7 +6479,9 @@ var BinaryTree = function () {
     }, {
         key: 'min',
         value: function min() {
-            if (this.root == undefined) {
+            var node = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.root;
+
+            if (node === undefined) {
                 console.log('根节点不存在');
             } else {
                 var minNode = function minNode(node) {
@@ -6489,13 +6491,15 @@ var BinaryTree = function () {
                         return node.val;
                     }
                 };
-                return minNode(this.root);
+                return minNode(node);
             }
         }
     }, {
         key: 'max',
         value: function max() {
-            if (this.root == undefined) {
+            var node = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.root;
+
+            if (node === undefined) {
                 console.log('根节点不存在');
             } else {
                 var maxNode = function maxNode(node) {
@@ -6505,7 +6509,7 @@ var BinaryTree = function () {
                         return node.val;
                     }
                 };
-                return maxNode(this.root);
+                return maxNode(node);
             }
         }
         // 搜索特定值
@@ -6532,17 +6536,51 @@ var BinaryTree = function () {
                 return searchFunc(this.root);
             }
         }
-        // 移除某个值,只需要将他们交换
+    }, {
+        key: 'removeNode',
+        value: function removeNode(node, val) {
+            if (node === undefined) {
+                console.log('好像并不存在该节点', val);
+                return;
+            } else if (val < node.val) {
+                node.left = this.removeNode(node.left, val);
+                return node;
+            } else if (val > node.val) {
+                node.right = this.removeNode(node.right, val);
+                return node;
+            } else if (val === node.val) {
+                // 找到要移除的节点了
+                console.log('准备移除某个节点', val);
+                if (node.left === undefined && node.right === undefined) {
+                    // 没有子节点
+                    node = undefined;
+                    return node;
+                } else if (node.left === undefined) {
+                    node = node.right;
+                    return node;
+                } else if (node.right === undefined) {
+                    node = node.left;
+                    return node;
+                } else {
+                    var temp = this.min(node.right);
+                    node.val = temp;
+                    node.right = this.removeNode(node.right, temp);
+                    return node;
+                }
+            }
+        }
+        // 移除某个值,BST最复杂的操作
 
     }, {
         key: 'remove',
         value: function remove(val) {
-            var currentNode = this.root;
 
-            if (this.root == undefined) {
-                return '找不到节点: ' + val;
+            if (this.root === undefined) {
+                console.log('二叉树不存在');
+                return;
             } else {
-                if (val < currentNode) {}
+                this.root = this.removeNode(this.root, val);
+                return this.root;
             }
         }
     }, {
@@ -29168,14 +29206,27 @@ new _vue2.default({
 		var BST = new _structures.BinaryTree();
 		window.db = BST;
 
-		BST.insert(5);
-		BST.insert(3);
+		BST.insert(11);
 		BST.insert(7);
-		BST.insert(4);
+		BST.insert(15);
+		BST.insert(5);
+		BST.insert(9);
+		BST.insert(13);
+		BST.insert(20);
+		BST.insert(3);
+		BST.insert(6);
 		BST.insert(8);
-		BST.postOrderTraverse(function (e) {
-			console.log(e);
-		});
+		BST.insert(10);
+		BST.insert(12);
+		BST.insert(14);
+		BST.insert(18);
+		BST.insert(25);
+		// BST.postOrderTraverse((e)=>{
+		// 	console.log(e);
+		// });
+
+
+		console.log(BST.remove(7));
 	},
 	created: function created() {
 		window.app = this;
@@ -29211,7 +29262,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '35391' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '43459' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
